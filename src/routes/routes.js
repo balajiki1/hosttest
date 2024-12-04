@@ -23,11 +23,12 @@ const AppRouter = () => {
   // Redirect to appropriate route based on role and token
   useEffect(() => {
     if (token && userDetails?.role === 'candidate' && location.pathname === '/') {
-      window.location.href = '/layout/jobdescriptioncandidate';
+      return <Navigate to="/layout/jobdescriptioncandidate" replace />;
     } else if (token && userDetails?.role && location.pathname === '/') {
-      window.location.href = '/layout';
+      return <Navigate to="/layout" replace />;
     }
   }, [token, userDetails, location]);
+  
 
   // Role-based access control
   const isAdmin = userDetails?.role === 'admin';
