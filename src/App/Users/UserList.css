@@ -1,0 +1,13 @@
+.user-list-heading {
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+  
+  .table-responsive {
+    overflow-x: auto;
+  }
+  
+  .alert-dismissible {
+    margin-bottom: 1rem;
+  }
+  

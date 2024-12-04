@@ -1,0 +1,77 @@
+/* src/components/CandidateDetails.css */
+
+.candidate-list-heading {
+    font-size: 1.75rem;
+    font-weight: bold;
+    color: #343a40;
+    margin-bottom: 1rem;
+  }
+  
+  .candidate-card {
+    border-radius: 8px;
+    border-left: 5px solid #007bff;
+    padding: 1rem;
+    position: relative;
+    transition: all 0.3s ease;
+    background-color: #ffffff;
+  }
+  
+  .candidate-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  }
+  
+  .candidate-chip {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: white;
+    background-color: #28a745;
+    border-radius: 12px;
+    text-transform: capitalize;
+  }
+  
+  .candidate-chip.in-process {
+    background-color: #ffc107;
+  }
+  
+  .candidate-chip.interviewed {
+    background-color: #17a2b8;
+  }
+  
+  .candidate-chip.hired {
+    background-color: #28a745;
+  }
+  
+  .candidate-chip.rejected {
+    background-color: #dc3545;
+  }
+  
+  .edit-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    color: #007bff;
+    font-size: 1.2rem;
+    border: none;
+    background: none;
+    z-index: 1;
+  }
+  
+  .edit-button:hover {
+    color: #0056b3;
+  }
+  
+  button.btn-secondary,
+  button.btn-primary {
+    font-weight: bold;
+  }
+  
+  input[type='text'] {
+    font-size: 1rem;
+    padding: 0.5rem;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+  }
+  

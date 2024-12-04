@@ -1,0 +1,31 @@
+/* Consistent Card Height */
+.same-height {
+  height: 250px;
+}
+
+.card {
+  border-radius: 8px;
+  padding: 20px;
+  border: none;
+  color: #333;
+  background-color: #ffffff;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Hover Effects */
+.job-card:hover {
+  transform: scale(1.02);
+  transition: transform 0.3s;
+}
+
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .content h4 {
+    font-size: 1.2rem;
+  }
+
+  .card-title {
+    font-size: 1rem;
+  }
+}
