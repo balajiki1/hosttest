@@ -3,7 +3,7 @@ import { Container, Navbar, Nav, Dropdown } from "react-bootstrap";
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import headerLogo from "../../assets/e - Recruiter new teal.svg";
 import { BsPersonCircle } from "react-icons/bs";
-import "./Layout.css";
+import '../../../src/style.scss'
 
 const Layout = () => {
     const [activeButton, setActiveButton] = useState("home"); // Default to "Home"

@@ -1,0 +1,87 @@
+// Import Google Font
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
+
+// Variables
+$primary-color: #007bff; // Primary blue color
+$light-gray: rgba(248, 249, 250, 0.95); // Light background with transparency
+$neutral-gray: #333; // Neutral dark gray
+$subtle-gray: #6c757d; // Subtle gray for secondary text
+$shadow-color: rgba(0, 0, 0, 0.2); // Shadow color
+
+// Mixin for hover effects
+@mixin hover-effect($color) {
+  transition: color 0.3s ease;
+  &:hover {
+    color: $color;
+  }
+}
+
+// Navbar styles
+.header {
+  background-color: $light-gray;
+}
+
+.custom-navbar {
+  box-shadow: 0 2px 2px $shadow-color;
+  z-index: 1050;
+}
+
+.nav-links {
+  .button {
+    font-size: 16px;
+    margin-right: 20px;
+    color: $neutral-gray;
+    text-decoration: none;
+    border: none;
+    background: none;
+    padding: 0;
+    @include hover-effect($primary-color);
+
+    &::after {
+      content: "";
+      display: block;
+      width: 0;
+      height: 2px;
+      background: $primary-color;
+      transition: width 0.3s;
+      margin-top: 4px;
+    }
+
+    &.active-button {
+      font-weight: bold;
+      color: $primary-color !important;
+
+      &::after {
+        width: 100%;
+      }
+    }
+  }
+}
+
+// User details section
+.user-details {
+  font-weight: bold;
+  color: $neutral-gray;
+
+  .username {
+    font-size: 16px;
+    color: $primary-color;
+  }
+
+  .role {
+    font-size: 14px;
+    color: $subtle-gray;
+  }
+}
+
+// Dropdown customization
+.no-caret {
+  &::after {
+    display: none !important;
+  }
+}
+
+// Content adjustment for navbar height
+.content {
+  margin-top: 75px;
+}
