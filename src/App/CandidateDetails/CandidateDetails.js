@@ -198,7 +198,7 @@ const CandidateDetailsPage = () => {
                       {jobs.find((job) => job.jobId === candidate.jobId)?.jobPostingName || 'N/A'}
                     </Card.Text>
                     <a
-                      href={`http://localhost:8001/${candidate.resume}`}
+                      href={`https://backendpro-4-xu1g.onrender.com/${candidate.resume}`}
                       download
                       className="btn btn-outline-primary btn-sm"
                     >
