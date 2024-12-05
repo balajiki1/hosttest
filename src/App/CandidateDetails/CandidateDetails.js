@@ -199,13 +199,12 @@ const CandidateDetailsPage = () => {
                     </Card.Text>
                     <a
                       href={`https://backendpro-4-xu1g.onrender.com/${candidate.resume}`}
-                      download
+                      target="_blank"
+                      rel="noopener noreferrer"
                       className="btn btn-outline-primary btn-sm"
                     >
-                      <FaDownload /> Download Resume
+                      <FaDownload />Downlaod
                     </a>
-
-
                   </Card.Body>
                 </Card>
               </Col>
