@@ -9,11 +9,11 @@ function Signup() {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState(''); // Corrected to an empty string
-  const [userType, setUserType] = useState('employee'); // Default user type
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [userType, setUserType] = useState('employee');
   const [errors, setErrors] = useState({});
   const [alertMessage, setAlertMessage] = useState('');
-  const [alertVariant, setAlertVariant] = useState(''); // Success or danger
+  const [alertVariant, setAlertVariant] = useState('');
   const [showAlert, setShowAlert] = useState(false);
   const navigate = useNavigate();
 
@@ -62,12 +62,25 @@ function Signup() {
     e.preventDefault();
     if (validateForm()) {
       try {
+        // Fetch existing users to check if an admin already exists
+        const response = await api.get('/user/getAll');
+        const existingAdmin = response.data.users.some((user) => user.role === 'admin');
+
+        if (userType === 'admin' && existingAdmin) {
+          setAlertMessage('An admin already exists. You cannot create another admin account.');
+          setAlertVariant('danger');
+          setShowAlert(true);
+          return;
+        }
+
+        // Create new user
         await api.post('/user/create', {
           fullName: username,
           email,
           password,
           role: userType,
         });
+
         setAlertMessage(
           userType === 'employee'
             ? 'Signup successful! Please contact your admin to activate your account.'
@@ -88,7 +101,7 @@ function Signup() {
             ? 'User already exists. Please login instead.'
             : errorMessage
         );
-        setAlertVariant('danger'); // Set alert color to red for errors
+        setAlertVariant('danger');
         setShowAlert(true);
       }
     }
