@@ -60,6 +60,7 @@ const JobView = () => {
       await api.put(`/candidates/${candidateId}`, { stage: newStage });
       fetchCandidates();
       setConfirmationModal(false);
+      setShowModal(false);
     } catch (error) {
       console.error('Error updating candidate stage:', error);
     } finally {
@@ -93,10 +94,7 @@ const JobView = () => {
       setInterviewDate('');
       setInterviewLocation('');
       setShowModal(true);
-    } else if (action === 'shortlist' || action === 'reject') {
-      setModalType(action);
-      setConfirmationModal(true);
-    } else if (action === 'select' || action === 'rejectScheduled') {
+    } else if (action === 'shortlist' || action === 'reject' || action === 'select' || action === 'rejectScheduled') {
       setModalType(action);
       setConfirmationModal(true);
     }
@@ -212,7 +210,13 @@ const JobView = () => {
               <Spinner animation="border" variant="primary" />
             </div>
           ) : (
-            `Are you sure you want to ${modalType === 'shortlist' ? 'shortlist' : 'reject'} this candidate?`
+            `Are you sure you want to ${
+              modalType === 'shortlist'
+                ? 'shortlist'
+                : modalType === 'select'
+                ? 'select'
+                : 'reject'
+            } this candidate?`
           )}
         </Modal.Body>
         <Modal.Footer>
@@ -222,11 +226,19 @@ const JobView = () => {
                 Cancel
               </Button>
               <Button
-                variant={modalType === 'shortlist' ? 'success' : 'danger'}
+                variant={
+                  modalType === 'shortlist' || modalType === 'select'
+                    ? 'success'
+                    : 'danger'
+                }
                 onClick={() =>
                   updateCandidateStage(
                     selectedCandidate.candidateId,
-                    modalType === 'shortlist' ? 'Shortlisted' : 'Rejected'
+                    modalType === 'shortlist'
+                      ? 'Shortlisted'
+                      : modalType === 'select'
+                      ? 'Selected'
+                      : 'Rejected'
                   )
                 }
               >
