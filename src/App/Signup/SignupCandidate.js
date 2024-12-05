@@ -7,6 +7,7 @@ import './signup.css';
 
 const SignupCandidate = () => {
   const [formData, setFormData] = useState({ fullName: '', email: '', password: '', confirmPassword: '' });
+  const [errors, setErrors] = useState({});
   const [alertMessage, setAlertMessage] = useState('');
   const [alertVariant, setAlertVariant] = useState('');
   const [showOTPModal, setShowOTPModal] = useState(false);
@@ -16,6 +17,7 @@ const SignupCandidate = () => {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+    setErrors((prev) => ({ ...prev, [name]: '' })); // Clear specific error on change
   };
 
   const validatePassword = (password) => {
@@ -24,22 +26,49 @@ const SignupCandidate = () => {
     return passwordRegex.test(password);
   };
 
+  const validateForm = () => {
+    const { fullName, email, password, confirmPassword } = formData;
+    let formErrors = {};
+    let isValid = true;
+
+    if (!fullName) {
+      isValid = false;
+      formErrors.fullName = 'User name is required.';
+    }
+
+    if (!email) {
+      isValid = false;
+      formErrors.email = 'Email is required.';
+    } else if (!/\S+@\S+\.\S+/.test(email)) {
+      isValid = false;
+      formErrors.email = 'Invalid email address.';
+    }
+
+    if (!password) {
+      isValid = false;
+      formErrors.password = 'Password is required.';
+    } else if (!validatePassword(password)) {
+      isValid = false;
+      formErrors.password =
+        'Password must be at least 8 characters long, include an uppercase letter, a lowercase letter, a number, and a special character (!@#$%^&*).';
+    }
+
+    if (!confirmPassword) {
+      isValid = false;
+      formErrors.confirmPassword = 'Confirm password is required.';
+    } else if (confirmPassword !== password) {
+      isValid = false;
+      formErrors.confirmPassword = 'Passwords do not match.';
+    }
+
+    setErrors(formErrors);
+    return isValid;
+  };
+
   const handleSignup = async () => {
-    const { password, confirmPassword, fullName, email } = formData;
+    if (!validateForm()) return;
 
-    if (password !== confirmPassword) {
-      setAlertMessage('Passwords do not match.');
-      setAlertVariant('danger');
-      return;
-    }
-
-    if (!validatePassword(password)) {
-      setAlertMessage(
-        'Password must be at least 8 characters long, include an uppercase letter, a lowercase letter, a number, and a special character (!@#$%^&*).'
-      );
-      setAlertVariant('danger');
-      return;
-    }
+    const { fullName, email, password } = formData;
 
     try {
       const response = await api.post('/user/create-candidate', {
@@ -59,10 +88,7 @@ const SignupCandidate = () => {
 
   const handleVerifyOTP = async () => {
     try {
-      // Ensure OTP and otpRecord.otp are strings
       const otpPayload = { otpRecord, otp: String(otp) };
-      console.log('Payload for OTP Verification:', otpPayload);
-  
       await api.post('/user/verify-otp', otpPayload);
       setAlertMessage('Signup successful! Redirecting to login...');
       setAlertVariant('success');
@@ -74,7 +100,6 @@ const SignupCandidate = () => {
       setAlertVariant('danger');
     }
   };
-  
 
   return (
     <Container fluid className="signup-page d-flex align-items-center justify-content-center">
@@ -101,8 +126,12 @@ const SignupCandidate = () => {
                     name="fullName"
                     value={formData.fullName}
                     onChange={handleInputChange}
+                    isInvalid={!!errors.fullName}
                     placeholder="Enter your user name"
                   />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.fullName}
+                  </Form.Control.Feedback>
                 </Form.Group>
 
                 <Form.Group controlId="email" className="mb-3">
@@ -112,8 +141,12 @@ const SignupCandidate = () => {
                     name="email"
                     value={formData.email}
                     onChange={handleInputChange}
+                    isInvalid={!!errors.email}
                     placeholder="Enter your email"
                   />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.email}
+                  </Form.Control.Feedback>
                 </Form.Group>
 
                 <Form.Group controlId="password" className="mb-3">
@@ -123,8 +156,12 @@ const SignupCandidate = () => {
                     name="password"
                     value={formData.password}
                     onChange={handleInputChange}
+                    isInvalid={!!errors.password}
                     placeholder="Enter a strong password"
                   />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.password}
+                  </Form.Control.Feedback>
                 </Form.Group>
 
                 <Form.Group controlId="confirmPassword" className="mb-3">
@@ -134,8 +171,12 @@ const SignupCandidate = () => {
                     name="confirmPassword"
                     value={formData.confirmPassword}
                     onChange={handleInputChange}
+                    isInvalid={!!errors.confirmPassword}
                     placeholder="Re-enter your password"
                   />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.confirmPassword}
+                  </Form.Control.Feedback>
                 </Form.Group>
 
                 <Button type="button" variant="primary" className="w-100" onClick={handleSignup}>
