@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { Routes, Route, Navigate, useLocation, useNavigate } from 'react-router-dom';
 import Login from '../App/Login/login';
 import Signup from '../App/Signup/signup';
 import Layout from '../App/Layout/Layout';
@@ -17,23 +17,25 @@ import JobListCandidate from '../App/JobDescription/JobDescriptionCandidate';
 
 const AppRouter = () => {
   const location = useLocation();
+  const navigate = useNavigate(); // Use the useNavigate hook
   const token = localStorage.getItem('token');
   const userDetails = JSON.parse(localStorage.getItem('userDetails'));
-
-  // Redirect to appropriate route based on role and token
-  useEffect(() => {
-    if (token && userDetails?.role === 'candidate' && location.pathname === '/') {
-      return <Navigate to="/layout/jobdescriptioncandidate" replace />;
-    } else if (token && userDetails?.role && location.pathname === '/') {
-      return <Navigate to="/layout" replace />;
-    }
-  }, [token, userDetails, location]);
-  
 
   // Role-based access control
   const isAdmin = userDetails?.role === 'admin';
   const isCandidate = userDetails?.role === 'candidate';
   const isEmployee = userDetails?.role === 'employee';
+
+  // Handle redirection based on role and token
+  useEffect(() => {
+    if (token) {
+      if (userDetails?.role === 'candidate' && location.pathname === '/') {
+        navigate('/layout/jobdescriptioncandidate', { replace: true });
+      } else if (userDetails?.role && location.pathname === '/') {
+        navigate('/layout', { replace: true });
+      }
+    }
+  }, [token, userDetails, location, navigate]);
 
   return (
     <Routes>

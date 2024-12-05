@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'https://backendpro-4-xu1g.onrender.com', // Ensure this is the correct backend URL
+  baseURL: 'http://localhost:8001/', // Ensure this is the correct backend URL
 });
 
 export const setAuthToken = (token) => {
